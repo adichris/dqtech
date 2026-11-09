@@ -1,12 +1,12 @@
-{% extends 'base.html' %}
-{% block content %}
-<section class="section narrow">
-  <a href="/seller/payments/">← Payment settings</a>
-  <span class="eyebrow mt-4">MALL PAY · RECOMMENDED</span>
+{% extends 'seller_base.html' %}
+{% block seller_content %}
+<section class="seller-page">
+  
+  <span class="eyebrow">MALL PAY · RECOMMENDED</span>
   <h1>Accept card and mobile money with no setup.</h1>
   <p>Customers pay through the marketplace's Paystack checkout. Paystack splits every payment automatically: the sale goes straight to your bank or mobile-money account, and the marketplace commission ({{ rate|floatformat:0 }}% after your commission-free months) is deducted at source. You never receive a commission bill for Mall Pay sales.</p>
   {% if not available %}
-    <div class="notice">Mall Pay is not available for {{ shop.currency }} stores yet. You can still use Cash on Delivery and manual payment methods.</div>
+    <div class="status-banner is-pending" role="status"><i class="fa-solid fa-clock" aria-hidden="true"></i><div><strong>{% if configured %}Mall Pay doesn't support {{ shop.currency }} stores yet.{% else %}Mall Pay is coming soon.{% endif %}</strong><p>The marketplace team is switching it on. Meanwhile customers can pay with Cash on Delivery and the payment methods you add under Payment methods.</p></div></div>
   {% elif error %}
     <div class="notice">We could not load the list of settlement banks from Paystack: {{ error }} Please try again shortly.</div>
   {% else %}

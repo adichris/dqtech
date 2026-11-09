@@ -25,3 +25,5 @@ try{applyLayout(sessionStorage.getItem('dqtech-list-layout')||'grid')}catch{}ref
 for(const dialog of document.querySelectorAll('#image-zoom-dialog,#report-dialog'))dialog.addEventListener('click',event=>{if(event.target===dialog)dialog.close()});
 })();
 (()=>{function compactFilters(){if(window.matchMedia('(max-width:760px)').matches){const panel=document.querySelector('.filter-panel');if(panel)panel.open=false}}compactFilters();document.addEventListener('htmx:after:swap',event=>{const target=event.detail?.ctx?.target;if(target?.id==='search-page'||event.target?.id==='search-page')compactFilters()})})();
+
+(()=>{function syncBag(){const source=document.getElementById('bag-count');const value=source?source.textContent.trim():'';document.querySelectorAll('[data-bag-mirror]').forEach(badge=>{badge.textContent=value;badge.hidden=!value||value==='0'})}document.addEventListener('htmx:after:swap',syncBag);document.addEventListener('htmx:after:settle',syncBag)})();

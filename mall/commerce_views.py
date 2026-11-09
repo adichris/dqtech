@@ -109,7 +109,7 @@ def returns(request):
 def store_settings(request):
     shop=get_object_or_404(Shop,owner=request.user);obj,_=ShopSettings.objects.get_or_create(shop=shop);form=SettingsForm(request.POST or None,instance=obj)
     if request.method=='POST' and form.is_valid():form.save();AuditEvent.objects.create(shop=shop,actor=request.user,action='Delivery settings changed',detail='');messages.success(request,'Store settings saved.');return redirect('store_settings')
-    return render(request,'form.html',{'form':form,'title':'Delivery, collection & returns','subtitle':'Your delivery fee is added to each order and shown before checkout.'})
+    return render(request,'seller_form.html',{'form':form,'title':'Delivery, collection & returns','subtitle':'Your delivery fee is added to each order and shown before checkout.'})
 @login_required
 def verification(request):
     shop=get_object_or_404(Shop,owner=request.user);form=VerificationForm(request.POST or None)
@@ -118,7 +118,7 @@ def verification(request):
         else:
             obj=form.save(commit=False);obj.shop=shop;obj.save();messages.success(request,'Your business details have been submitted for review.')
         return redirect('seller')
-    return render(request,'form.html',{'form':form,'title':'Verify your business','subtitle':'A platform administrator will review your details before activating your store.'})
+    return render(request,'seller_form.html',{'form':form,'title':'Verify your business','subtitle':'A platform administrator will review your details before activating your store.'})
 @login_required
 def notifications(request):
     if request.method=='POST':Notification.objects.filter(recipient=request.user,date_read__isnull=True).update(date_read=timezone.now());return redirect('notifications')
@@ -155,7 +155,7 @@ def mall_pay(request):
     """Mall Pay: the marketplace Paystack account takes payment and splits it to the seller automatically."""
     shop=get_object_or_404(Shop,owner=request.user)
     connection=GatewayConnection.objects.filter(shop=shop).first()
-    context={'shop':shop,'connection':connection,'available':platform_available(shop),'rate':None}
+    context={'shop':shop,'connection':connection,'available':platform_available(shop),'configured':bool(settings.PLATFORM_PAYSTACK_SECRET),'rate':None}
     from .models import CommissionPolicy
     policy=CommissionPolicy.objects.filter(effective__lte=timezone.now()).order_by('-effective').first()
     context['rate']=(policy.rate if policy else 0.03)*100

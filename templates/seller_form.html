@@ -1,0 +1,17 @@
+{% extends 'seller_base.html' %}
+{% block seller_content %}
+<section class="seller-page">
+  <h1>{{ title }}</h1>
+  {% if subtitle %}<p class="muted">{{ subtitle }}</p>{% endif %}
+  <div class="panel">
+    <form method="post" autocomplete="off">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <div class="form-actions">
+        <button class="button dark">Save changes</button>
+        <a class="text-button" href="/seller/">Cancel</a>
+      </div>
+    </form>
+  </div>
+</section>
+{% endblock %}

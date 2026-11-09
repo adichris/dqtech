@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="workspace" x-data="{ tab: location.pathname === '/seller/' ? (location.hash.slice(1) || 'overview') : '' }" @hashchange.window="if (location.pathname === '/seller/') tab = location.hash.slice(1) || 'overview'">
+  {% include 'fragments/seller_nav.html' %}
+  <div class="workspace-main">
+    {% block seller_content %}{% endblock %}
+  </div>
+</div>
+{% endblock %}

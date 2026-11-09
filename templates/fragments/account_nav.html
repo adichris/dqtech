@@ -1,0 +1,9 @@
+{% with p=request.path %}
+<nav class="account-nav" aria-label="Your account">
+  <a href="/orders/"{% if p == '/orders/' %} aria-current="page"{% endif %}><i class="fa-solid fa-box" aria-hidden="true"></i> Orders</a>
+  <a href="/account/addresses/"{% if '/account/addresses/' in p %} aria-current="page"{% endif %}><i class="fa-solid fa-location-dot" aria-hidden="true"></i> Addresses</a>
+  <a href="/wishlist/"{% if p == '/wishlist/' %} aria-current="page"{% endif %}><i class="fa-regular fa-heart" aria-hidden="true"></i> Saved</a>
+  <a href="/notifications/"{% if p == '/notifications/' %} aria-current="page"{% endif %}><i class="fa-regular fa-bell" aria-hidden="true"></i> Updates</a>
+  {% if my_shop %}<a href="/seller/"><i class="fa-solid fa-store" aria-hidden="true"></i> Seller centre</a>{% endif %}
+</nav>
+{% endwith %}

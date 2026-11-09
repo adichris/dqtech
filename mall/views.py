@@ -97,7 +97,18 @@ def seller(request):
         return redirect('onboard')
     all_orders=Order.objects.filter(shop=s).select_related('payment_method','oscar_order').order_by('-created','-pk')
     page=paginate(request,all_orders)
-    return render(request,'seller.html',{'shop':s,'orders':page.object_list,'page_obj':page,'order_count':page.paginator.count,'enquiries':Enquiry.objects.filter(product__shop=s).select_related('sender','product'),'revenue':Receipt.objects.filter(shop=s).exclude(order__oscar_order__status='Refunded').aggregate(v=Sum('amount'))['v'] or 0})
+    return render(request,'seller.html',{'setup':setup_steps(s),'shop':s,'orders':page.object_list,'page_obj':page,'order_count':page.paginator.count,'enquiries':Enquiry.objects.filter(product__shop=s).select_related('sender','product'),'revenue':Receipt.objects.filter(shop=s).exclude(order__oscar_order__status='Refunded').aggregate(v=Sum('amount'))['v'] or 0})
+def setup_steps(shop):
+    from .models import VerificationRequest,ShopSettings,GatewayConnection
+    verification=VerificationRequest.objects.filter(shop=shop).order_by('-created').first()
+    steps=[
+        {'title':'Verify your business','detail':'Under review by the marketplace team' if verification and verification.state=='Pending' and not shop.verified else 'Share your registration and contact details','done':shop.verified or bool(verification and verification.state=='Pending'),'url':'/seller/verification/','icon':'fa-id-card'},
+        {'title':'Add your first product','detail':'Photos, price and stock','done':shop.products.exists(),'url':'/seller/products/new/','icon':'fa-box-open'},
+        {'title':'Set delivery and collection','detail':'Fees by region, collection point and returns policy','done':ShopSettings.objects.filter(shop=shop).exists(),'url':'/seller/settings/','icon':'fa-truck-fast'},
+        {'title':'Accept card and mobile money','detail':'Set up Mall Pay. Cash on Delivery is already on','done':GatewayConnection.objects.filter(shop=shop,active=True).exists(),'url':'/seller/mall-pay/','icon':'fa-credit-card'},
+    ]
+    done=sum(step['done'] for step in steps)
+    return {'steps':steps,'done':done,'total':len(steps),'percent':round(done*100/len(steps)),'complete':done==len(steps) and shop.active}
 def paginate(request,queryset,per_page=25):
     from django.core.paginator import Paginator
     return Paginator(queryset,per_page).get_page(request.GET.get('page'))
@@ -107,7 +118,7 @@ def edit_product(request,pk=None):
     p=get_object_or_404(Product,pk=pk,shop=s) if pk else None
     f=ProductForm(request.POST or None,instance=p)
     if request.method=='POST' and f.is_valid(): obj=f.save(commit=False);obj.shop=s;obj.save();return redirect('seller')
-    return render(request,'form.html',{'form':f,'title':'Edit product' if p else 'Add a product'})
+    return render(request,'seller_form.html',{'form':f,'title':'Edit product' if p else 'Add a product','subtitle':'Clear photos, an honest description and accurate stock help customers buy with confidence.'})
 @login_required
 def payments(request):
     s=get_object_or_404(Shop,owner=request.user);f=PaymentForm(request.POST or None)

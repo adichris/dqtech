@@ -1,0 +1,33 @@
+{% with p=request.path %}
+<aside class="seller-nav" aria-label="Seller centre">
+  <span class="eyebrow">MERCHANT WORKSPACE</span>
+  <h3>{{ my_shop.name }}</h3>
+  <span class="store-state {% if my_shop.active %}is-live{% else %}is-pending{% endif %}"><i class="fa-solid {% if my_shop.active %}fa-circle-check{% else %}fa-hourglass-half{% endif %}" aria-hidden="true"></i> {% if my_shop.active %}Store is live{% else %}Awaiting activation{% endif %}</span>
+
+  <p class="nav-group">Store</p>
+  <a href="/seller/#overview" :class="{ active: tab === 'overview' }" :aria-current="tab === 'overview' ? 'page' : false"><i class="fa-solid fa-gauge" aria-hidden="true"></i> Overview</a>
+  <a href="/seller/#products" :class="{ active: tab === 'products' }"><i class="fa-solid fa-box-open" aria-hidden="true"></i> Products</a>
+  <a href="/seller/#orders" :class="{ active: tab === 'orders' }"><i class="fa-solid fa-truck" aria-hidden="true"></i> Orders &amp; delivery</a>
+  <a href="/seller/#enquiries" :class="{ active: tab === 'enquiries' }"><i class="fa-solid fa-comments" aria-hidden="true"></i> Customer enquiries</a>
+  <a href="/seller/returns/" {% if p == '/seller/returns/' %}class="active" aria-current="page"{% endif %}><i class="fa-solid fa-rotate-left" aria-hidden="true"></i> Returns &amp; refunds</a>
+
+  <p class="nav-group">Money</p>
+  <a href="/seller/mall-pay/" {% if p == '/seller/mall-pay/' %}class="active" aria-current="page"{% endif %}><i class="fa-solid fa-credit-card" aria-hidden="true"></i> Mall Pay</a>
+  <a href="/seller/payments/" {% if p == '/seller/payments/' or p == '/seller/gateway/' %}class="active" aria-current="page"{% endif %}><i class="fa-solid fa-wallet" aria-hidden="true"></i> Payment methods</a>
+  <a href="/seller/#finance" :class="{ active: tab === 'finance' }"><i class="fa-solid fa-chart-line" aria-hidden="true"></i> Finance &amp; billing</a>
+  <a href="/operations/{{ my_shop.slug }}/overview/"><i class="fa-solid fa-calculator" aria-hidden="true"></i> Finance operations</a>
+
+  <p class="nav-group">Settings</p>
+  <a href="/seller/settings/" {% if p == '/seller/settings/' %}class="active" aria-current="page"{% endif %}><i class="fa-solid fa-truck-fast" aria-hidden="true"></i> Delivery &amp; returns</a>
+  <a href="/seller/verification/" {% if p == '/seller/verification/' %}class="active" aria-current="page"{% endif %}><i class="fa-solid fa-id-card" aria-hidden="true"></i> Business verification</a>
+  <a href="/seller/team/" {% if p == '/seller/team/' %}class="active" aria-current="page"{% endif %}><i class="fa-solid fa-users" aria-hidden="true"></i> Staff &amp; permissions</a>
+  <a href="/seller/messages/" {% if p == '/seller/messages/' or p == '/seller/sms/' or p == '/seller/whatsapp/' %}class="active" aria-current="page"{% endif %}><i class="fa-solid fa-bell" aria-hidden="true"></i> Email, SMS &amp; WhatsApp</a>
+  <a href="{% url 'store' my_shop.slug %}"><i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i> View storefront</a>
+
+  <div class="trial">
+    <strong>Your room to grow.</strong>
+    <p>Commission-free until {{ my_shop.trial_end }}.</p>
+    <small>Then 3% of qualifying sales.</small>
+  </div>
+</aside>
+{% endwith %}

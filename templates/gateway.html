@@ -1,8 +1,8 @@
-{% extends 'base.html' %}
-{% block content %}
-<section class="section narrow">
+{% extends 'seller_base.html' %}
+{% block seller_content %}
+<section class="seller-page">
   <a href="/seller/payments/">← Payment settings</a>
-  <span class="eyebrow mt-4">SELLER-OWNED PAYMENTS</span>
+  <span class="eyebrow">SELLER-OWNED PAYMENTS</span>
   <h1>Connect your own Paystack account.</h1>
   <p>Payments are processed by your own provider account. DQTech records the order and verifies the provider response. Commission on these sales is invoiced to you after delivery.</p>
   {% if not allowed %}

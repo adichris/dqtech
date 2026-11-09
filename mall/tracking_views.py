@@ -70,7 +70,7 @@ def sms_settings(request):
             if data['api_key']:config.encrypted_key=encrypt_secret(data['api_key'],settings.GATEWAY_ENCRYPTION_KEY)
             config.sender_id=data['sender_id'];config.active=data['active'];config.save()
             messages.success(request,'Arkesel SMS settings saved. Messages use your own account and credits.');return redirect('sms_settings')
-    return render(request,'form.html',{'title':'Your Arkesel SMS connection','subtitle':'Transactional order notifications are sent through your seller account. Configure your registered sender ID and account credits in Arkesel.','form':form})
+    return render(request,'seller_form.html',{'title':'Your Arkesel SMS connection','subtitle':'Transactional order notifications are sent through your seller account. Configure your registered sender ID and account credits in Arkesel.','form':form})
 
 @login_required
 def message_log(request):

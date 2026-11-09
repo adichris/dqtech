@@ -1,0 +1,29 @@
+{% if not shop.active %}
+<div class="status-banner is-pending" role="status">
+  <i class="fa-solid fa-hourglass-half" aria-hidden="true"></i>
+  <div>
+    <strong>Your store isn't visible to customers yet.</strong>
+    <p>The marketplace team activates stores after reviewing business details. You can keep adding products and settings meanwhile.</p>
+  </div>
+</div>
+{% endif %}
+{% if not setup.complete %}
+<section class="setup-card" aria-labelledby="setup-title" x-show="tab === 'overview'">
+  <div class="setup-head">
+    <div>
+      <span class="eyebrow">{% if shop.active %}FINISH SETTING UP{% else %}GET YOUR STORE LIVE{% endif %}</span>
+      <h2 id="setup-title">{{ setup.done }} of {{ setup.total }} steps done</h2>
+    </div>
+    <div class="setup-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="{{ setup.percent }}" aria-label="Setup progress"><span style="width: {{ setup.percent }}%"></span></div>
+  </div>
+  <ol class="setup-steps">
+    {% for step in setup.steps %}
+    <li class="{% if step.done %}is-done{% endif %}">
+      <span class="step-icon"><i class="fa-solid {% if step.done %}fa-check{% else %}{{ step.icon }}{% endif %}" aria-hidden="true"></i></span>
+      <div><strong>{{ step.title }}</strong><small>{{ step.detail }}</small></div>
+      {% if step.done %}<span class="step-state">Done</span>{% else %}<a class="button" href="{{ step.url }}">Start</a>{% endif %}
+    </li>
+    {% endfor %}
+  </ol>
+</section>
+{% endif %}

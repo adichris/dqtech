@@ -320,7 +320,7 @@ class MallPayTests(Fixture):
     @override_settings(PLATFORM_PAYSTACK_SECRET='')
     def test_mall_pay_unavailable_without_platform_key(self):
         self.client.force_login(self.owner)
-        self.assertContains(self.client.get('/seller/mall-pay/'), 'not available')
+        self.assertContains(self.client.get('/seller/mall-pay/'), 'Mall Pay is coming soon')
 
 
 @FAST_HASH
