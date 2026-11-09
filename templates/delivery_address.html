@@ -1,0 +1,15 @@
+{% if user.is_authenticated and not address_editor %}<div id="saved-address-picker" hx-preserve class="saved-address-picker"><input type="hidden" name="address_choice" form="checkout-form" value="{{ selected_address.pk|default:'new' }}"><form action="/bag/" method="get"><label for="saved-address-select">Deliver to a saved address</label><select id="saved-address-select" name="address" onchange="this.form.requestSubmit()"><option value="new">Enter a new address</option>{% for saved in saved_addresses %}<option value="{{ saved.pk }}" {% if selected_address.pk == saved.pk %}selected{% endif %}>{{ saved.label }}{% if saved.is_default %} · Default{% endif %} — {{ saved.data.city }}, {{ saved.data.region }}</option>{% endfor %}</select><noscript><button class="button">Use address</button></noscript></form><a href="{% url 'address_book' %}">Manage my addresses</a></div>{% endif %}
+<div class="address-location-tools">
+  <button type="button" class="button" id="use-location" data-geo-url="{{ geo_url }}"><i class="fa-solid fa-location-crosshairs" aria-hidden="true"></i> Use my location</button>
+  <p>With your permission, your device location is sent to <a href="https://www.bigdatacloud.com/privacy-and-cookie-policy" target="_blank" rel="noopener">BigDataCloud</a> to suggest your region and town. Review the result and enter your street address.</p>
+</div>
+<p id="location-status" role="status" aria-live="polite"></p>
+<div id="delivery-address-fields" class="address-grid" hx-preserve>
+{% for field in address_form %}<div class="address-field {% if field.name == 'street' or field.name == 'instructions' %}address-wide{% endif %}"><label for="{{ field.id_for_label }}">{{ field.label }}{% if field.field.required %} <span aria-hidden="true">*</span>{% endif %}</label>{{ field }}{% for error in field.errors %}<small class="field-error" role="alert">{{ error }}</small>{% endfor %}</div>{% endfor %}
+{% if user.is_authenticated and not address_editor %}<div class="address-wide address-save-options"><label><input type="checkbox" name="save_address" form="checkout-form" {% if not selected_address %}checked{% endif %}> Save this address to my account for reuse</label><label>Address label<input name="address_label" form="checkout-form" maxlength="60" value="{{ selected_address.label|default:'Home' }}" placeholder="Home, Work or Campus"></label><label><input type="checkbox" name="default_address" form="checkout-form"> Make this my default address</label><small>A complete delivery address is required to save it. WhatsApp consent is chosen separately for each order.</small></div>{% endif %}
+<datalist id="delivery-cities"></datalist>
+</div>
+{{ delivery_regions|json_script:'ghana-delivery-regions' }}
+<p class="address-help"><i class="fa-solid fa-map-location-dot" aria-hidden="true"></i> All 16 Ghana regions are available. Choose a suggested town or type your own. GhanaPost GPS addresses must be entered from your own address record.</p>
+
+{{ delivery_rates|json_script:'ghana-delivery-rates' }}

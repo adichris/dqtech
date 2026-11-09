@@ -1,0 +1,1 @@
+<span class="rating-summary">{% if product.rating_count %}<span aria-hidden="true"><i class="fa-solid fa-star"></i></span> {{ product.rating_average|floatformat:1 }} <small>({{ product.rating_count }})</small>{% else %}<small>New · No reviews yet</small>{% endif %}</span>

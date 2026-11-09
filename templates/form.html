@@ -1,0 +1,1 @@
+{% extends 'base.html' %}{% block content %}<section class="form-panel"><span class="eyebrow">{{ system_name }} · SELLER COMMUNITY</span><h1>{{ title }}</h1><p>{{ subtitle }}</p><form method="post">{% csrf_token %}{{ form.as_p }}<button class="button dark">Save & continue ↗</button></form></section>{% endblock %}

@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="section narrow">
+  <a href="/seller/payments/">← Payment settings</a>
+  <span class="eyebrow mt-4">SELLER-OWNED PAYMENTS</span>
+  <h1>Connect your own Paystack account.</h1>
+  <p>Payments are processed by your own provider account. DQTech records the order and verifies the provider response. Commission on these sales is invoiced to you after delivery.</p>
+  {% if not allowed %}
+    <div class="panel">
+      <h3>Requirements for a seller-owned account</h3>
+      <p>Until then, take card and mobile-money payments with <a href="/seller/mall-pay/">Mall Pay</a>{% if not mall_pay_available %} (when it is available for {{ shop.currency }} stores){% endif %}.</p>
+      <ul class="eligibility">
+        {% for check in eligibility.checks %}<li>{% if check.ok %}<i class="fa-solid fa-circle-check" aria-hidden="true"></i> <span class="visually-hidden">Met:</span>{% else %}<i class="fa-regular fa-circle" aria-hidden="true"></i> <span class="visually-hidden">Not yet:</span>{% endif %} {{ check.label }} <small>· {{ check.detail }}</small></li>{% endfor %}
+      </ul>
+    </div>
+  {% else %}
+    {% if grandfathered %}<div class="notice">Your existing seller-owned connection was set up before these requirements and remains available.</div>{% endif %}
+    {% if eligibility.approved_override %}<div class="notice">The marketplace team approved your store for a seller-owned account.</div>{% endif %}
+    <div class="notice">Start in test mode. A saved connection is not a verified live integration; complete a test purchase and webhook check before taking live orders.</div>
+    {% if connection and connection.encrypted_secret %}
+      <div class="panel">
+        <h3>Current connection</h3>
+        <p>{% if connection.is_platform %}Not in use: Mall Pay is active{% else %}{% if connection.test_mode %}Test mode{% else %}Live mode{% endif %} · {% if connection.active %}Enabled{% else %}Disabled{% endif %}{% endif %}</p>
+        <label>Webhook URL<input readonly value="{{ public_base }}/webhooks/paystack/{{ connection.pk }}/"></label>
+        <small>Configure this URL in your own Paystack dashboard. HTTPS is required outside local development.</small>
+      </div>
+    {% endif %}
+    <div class="panel"><form method="post" autocomplete="off">{% csrf_token %}{{ form.as_p }}<button class="button dark">Save encrypted connection ↗</button></form></div>
+  {% endif %}
+</section>
+{% endblock %}

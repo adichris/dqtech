@@ -1,0 +1,1 @@
+<div class="cart-toast {% if error %}cart-error{% endif %}" role="status"><span>{{ text }}</span><a href="/bag/">View bag ↗</a><button type="button" aria-label="Dismiss" onclick="this.parentElement.remove()">×</button></div><hx-partial hx-target="#bag-count" hx-swap="innerHTML">{{ bag_count }}</hx-partial>

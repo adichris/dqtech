@@ -1,0 +1,32 @@
+.theme-toggle{border:1px solid #dbe5e3;background:transparent;color:inherit;border-radius:50%;width:34px;height:34px;display:grid;place-items:center;flex-shrink:0;font-size:15px}.theme-toggle:focus-visible{outline:3px solid #36a8c7;outline-offset:3px}
+html[data-theme=dark]{color-scheme:dark}
+html[data-theme=dark] body{background:#101b24;color:#e2edf0}
+html[data-theme=dark] :is(header,nav,footer,.panel,.product-card,.form-panel,.basket-store,.basket-summary,.basket-delivery,.filter-panel,.search-product-results,.workspace aside,.stats>div,.autocomplete-results,dialog,.quick-product,.purchase-panel,.product-main,.product-information,.product-details,.review-card,.search-empty,.currency-summary){background-color:#182833;color:#e2edf0;border-color:#354b58}
+html[data-theme=dark] :is(input,select,textarea,.search){background-color:#12212c;color:#e2edf0;border-color:#455e6b}
+html[data-theme=dark] input::placeholder,html[data-theme=dark] textarea::placeholder{color:#a9bdc6}
+html[data-theme=dark] :is(.muted,.eyebrow,.stock-note,.payment-explanation,.checkout-footnote,.address-help,#location-status,.breadcrumb-line,.product-info small,.hero-copy>p,.review-meta,.search-results-count,.basket-item-info small,td small,th){color:#adbfca}
+html[data-theme=dark] :is(.notice,.messages,.status,.address-location-tools,.address-save-options,.basket-reassurance,.store-fulfilment,.basket-store-header,.payment-heading,.tracking-step span,.trial,.category,.chip,.filter-chip,.floating-note,.hero,.seller-banner){background-color:#203641;color:#e0edf0;border-color:#3a5765}
+html[data-theme=dark] :is(.hero h1 em,.verified,.tracking-step.done,.rating-summary,.stars){color:#65cfce}
+html[data-theme=dark] :is(.button,.text-button,.continue-shopping,.basket-save,.basket-remove,.product-tabs button,.product-price,.price-row strong,.basket-line-price strong,.summary-total strong){color:#94dbef;border-color:#568a9e}
+html[data-theme=dark] .button.dark,html[data-theme=dark] .button:hover{background:#076b8c;color:white;border-color:#2987a3}
+html[data-theme=dark] :is(.quantity-control,.quantity-control button,.quantity-control input,.view-toggle button,.dialog-close,.address-location-tools .button){background:#142631;color:#dfedf1;border-color:#45606d}
+html[data-theme=dark] :is(.product-info,.basket-item,.store-total-row,.basket-store-header,.currency-summary,.summary-total,td,th,.saved-address-picker,.tracking-step){border-color:#354f5d}
+html[data-theme=dark] .tracking-step.done{border-color:#55c5af}
+html[data-theme=dark] .brand-logo{background:#f7faf8;border-radius:5px;padding:3px}
+html[data-theme=dark] .theme-toggle{background:#233a48;color:#ffe09a;border-color:#526878}
+html[data-theme=dark] :is(.field-error,.filter-errors,.unavailable){color:#ffb4b4}
+html[data-theme=dark] a:hover{color:#9fe4df}
+@media(max-width:760px){.header-actions .theme-toggle{width:27px;height:27px;font-size:14px}.header-actions{gap:10px}}
+@media print{.theme-toggle{display:none}html[data-theme=dark] body{background:white;color:black}}
+
+html[data-theme=dark] :is(.basket-summary>form,.product-seller-card,.write-review,.first-review,.product-question textarea,.empty-basket,.search-product-results .empty,#image-zoom-dialog,.cart-feedback,.sort-form select,.results-controls>select,.layout-toggle,.pagination-bar>a,.card-add,.icon-action,.photo-zoom,.product-thumbnails button){background-color:#182833;color:#e2edf0;border-color:#405a68}
+html[data-theme=dark] :is(.product-main-photo,.product-image,.basket-item-image,.product-facts>div:nth-child(odd),.product-type-badge,.tag,.card-quick-label,.question-icon,.review-rating-picker label>span:not(.visually-hidden)){background-color:#243c49;color:#d9edf0;border-color:#456170}
+html[data-theme=dark] :is(.product-page,.basket-page,.catalogue-page) :is(h1,h2,h3,strong){color:#e2edf0}
+html[data-theme=dark] :is(.product-short-description,.gallery-caption,.product-review-link,.product-facts,.product-seller-card p,.catalogue-intro p,.catalogue-endnote,.basket-title p,.basket-item-info .eyebrow,.summary-heading p,.store-currency,.filter-group small){color:#b3c7d0}
+@media print{html[data-theme=dark] :is(body,.panel,.invoice,table,td,th,.notice){background:white!important;color:black!important;border-color:#aaa!important}}
+
+html[data-theme=dark] :is(.product-question,.address-field:has(input[type=checkbox])){background:#203641;color:#e2edf0;border-color:#456170}
+html[data-theme=dark] :is(.address-location-tools p,.address-location-tools a,.product-question p,.product-question small,.gallery-caption,.footer-brand span,.product-facts>div>*){color:#b7d0db}
+html[data-theme=dark] :is(.bag b,.basket-title h1>span,.review-count,.product-topline .status){background:#294554;color:#e7f6fa}
+html[data-theme=dark] .product-question h3{color:#e2edf0}
+hx-partial{display:none}

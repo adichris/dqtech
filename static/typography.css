@@ -1,0 +1,28 @@
+/* Readable shared typography, including compact screens. */
+body{font-size:16px;line-height:1.6}
+input:not([type=checkbox]),select,textarea,.search input{font-size:16px}
+.button,button,label{line-height:1.5}
+.product-info h3{font-size:18px;line-height:1.45;letter-spacing:-.25px;min-height:0;height:auto}
+.price-row{flex-wrap:wrap;gap:8px}.price-row strong{font-size:19px}
+.product-info{min-width:0}.product-info h3,.seller-label{overflow-wrap:anywhere}
+.product-short-description,.product-information>section>p,.review-body,.review-text,.hero-copy>p,.seller-banner p,.product-question p,.empty-basket p{font-size:16px;line-height:1.8}
+.product-facts>div,.product-tabs button,.product-tabs>a,.basket-title p,.payment-explanation{font-size:16px}
+.basket-item-info h3{font-size:18px;line-height:1.45}.basket-line-price strong{font-size:18px}
+.product-trust-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.product-trust-grid>div{min-width:0;overflow-wrap:anywhere}
+.card-bottom{flex-wrap:wrap;gap:8px}.card-bottom>*{min-width:0}
+.benefits>div{min-width:0}.benefits strong,.benefits small{line-height:1.5}
+.store-fulfilment{flex-wrap:wrap}.store-fulfilment select{max-width:100%}
+.system-name{font-size:14px;line-height:1.35}.brand{min-width:0}
+@media(max-width:760px){
+.product-info{padding:13px 11px}.product-info h3{font-size:17px}.price-row strong{font-size:18px}
+.search-product-results.listing-list .product-info h3{font-size:17px}.search-product-results.listing-list .price-row strong{font-size:18px}.search-product-results.listing-list .card-description{font-size:14px}
+.product-purchase h1{font-size:32px;line-height:1.25}.product-short-description,.product-information>section>p{font-size:16px}
+.product-trust-grid{grid-template-columns:1fr;gap:16px}.product-trust-grid strong,.product-trust-grid small{font-size:14px}
+.system-name{font-size:12px;max-width:100px}.header-actions{gap:9px}.brand-logo{width:58px;height:42px}
+.header-actions .bag b{font-size:12px}.header-actions .bag{position:relative}
+.results-controls{flex-wrap:wrap}.results-controls select{width:auto;max-width:100%;font-size:16px}
+.filter-panel form{grid-template-columns:1fr}.filter-panel form>*{grid-column:1!important}
+.basket-title{flex-wrap:wrap}.continue-shopping{white-space:normal}.product-tabs{flex-wrap:wrap;gap:16px}
+.benefits{gap:20px 12px}.category-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:360px){.product-grid,.catalogue-results .product-grid{grid-template-columns:1fr}.header-actions{gap:7px}.system-name{max-width:78px;font-size:12px}.brand-logo{width:45px}}

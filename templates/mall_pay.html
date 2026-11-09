@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="section narrow">
+  <a href="/seller/payments/">← Payment settings</a>
+  <span class="eyebrow mt-4">MALL PAY · RECOMMENDED</span>
+  <h1>Accept card and mobile money with no setup.</h1>
+  <p>Customers pay through the marketplace's Paystack checkout. Paystack splits every payment automatically: the sale goes straight to your bank or mobile-money account, and the marketplace commission ({{ rate|floatformat:0 }}% after your commission-free months) is deducted at source. You never receive a commission bill for Mall Pay sales.</p>
+  {% if not available %}
+    <div class="notice">Mall Pay is not available for {{ shop.currency }} stores yet. You can still use Cash on Delivery and manual payment methods.</div>
+  {% elif error %}
+    <div class="notice">We could not load the list of settlement banks from Paystack: {{ error }} Please try again shortly.</div>
+  {% else %}
+    {% if connection and connection.is_platform %}
+      <div class="panel">
+        <h3>Current settlement account</h3>
+        <p>{{ connection.settlement_bank_name|default:connection.settlement_bank }} · ****{{ connection.account_last4 }}{% if connection.account_name %} · {{ connection.account_name }}{% endif %}</p>
+        <p>{% if connection.active %}Accepting online payments{% else %}Paused{% endif %}{% if connection.test_mode %} · Test mode{% endif %}</p>
+        <small>Paystack fees are deducted from your share of each payment. Settlement timing follows the marketplace's Paystack schedule.</small>
+      </div>
+    {% elif connection %}
+      <div class="notice">You currently take online payments through your own Paystack account. Saving Mall Pay details switches new payments to Mall Pay. Payments already started on your own account are still verified.</div>
+    {% endif %}
+    <div class="panel">
+      <form method="post" autocomplete="off">{% csrf_token %}{{ form.as_p }}<button class="button dark">Save settlement details ↗</button></form>
+    </div>
+  {% endif %}
+  <p class="mt-4"><a href="/seller/gateway/">Use your own Paystack account instead</a> (available once your store meets the requirements).</p>
+</section>
+{% endblock %}

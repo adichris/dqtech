@@ -1,0 +1,65 @@
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: dqtech
+      POSTGRES_USER: dqtech
+      POSTGRES_PASSWORD: ${DB_PASSWORD:?Set DB_PASSWORD}
+    volumes: ["postgres:/var/lib/postgresql/data"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U dqtech"]
+      interval: 5s
+      retries: 10
+  redis:
+    image: redis:7-alpine
+  web:
+    build: .
+    ports: ["127.0.0.1:8000:8000"]
+    environment: &appenv
+      SECRET_KEY: ${SECRET_KEY:?Set SECRET_KEY}
+      DEBUG: ${DEBUG:-0}
+      ALLOWED_HOSTS: ${ALLOWED_HOSTS:-localhost,127.0.0.1}
+      DATABASE_URL: postgres://dqtech:${DB_PASSWORD}@db:5432/dqtech
+      REDIS_URL: redis://redis:6379/0
+      GATEWAY_ENCRYPTION_KEY: ${GATEWAY_ENCRYPTION_KEY:?Set GATEWAY_ENCRYPTION_KEY}
+      PUBLIC_BASE_URL: ${PUBLIC_BASE_URL:?Set PUBLIC_BASE_URL}
+      CSRF_TRUSTED_ORIGINS: ${CSRF_TRUSTED_ORIGINS:-}
+      TRUST_PROXY_HTTPS: ${TRUST_PROXY_HTTPS:-0}
+      EMAIL_BACKEND: ${EMAIL_BACKEND:-django.core.mail.backends.smtp.EmailBackend}
+      EMAIL_HOST: ${EMAIL_HOST:-localhost}
+      EMAIL_PORT: ${EMAIL_PORT:-587}
+      EMAIL_HOST_USER: ${EMAIL_HOST_USER:-}
+      EMAIL_HOST_PASSWORD: ${EMAIL_HOST_PASSWORD:-}
+      EMAIL_USE_TLS: ${EMAIL_USE_TLS:-1}
+      EMAIL_USE_SSL: ${EMAIL_USE_SSL:-0}
+      DEFAULT_FROM_EMAIL: ${DEFAULT_FROM_EMAIL:-noreply@example.invalid}
+      WHATSAPP_GRAPH_VERSION: ${WHATSAPP_GRAPH_VERSION:-v27.0}
+      GEO_LOOKUP_URL: ${GEO_LOOKUP_URL-https://api.bigdatacloud.net/data/reverse-geocode-client}
+      PLATFORM_PAYSTACK_SECRET: ${PLATFORM_PAYSTACK_SECRET:-}
+      PLATFORM_PAYSTACK_CURRENCIES: ${PLATFORM_PAYSTACK_CURRENCIES:-GHS}
+      OWN_GATEWAY_MIN_DAYS: ${OWN_GATEWAY_MIN_DAYS:-90}
+      OWN_GATEWAY_MIN_DELIVERED_ORDERS: ${OWN_GATEWAY_MIN_DELIVERED_ORDERS:-25}
+      OWN_GATEWAY_MAX_REFUND_RATE: ${OWN_GATEWAY_MAX_REFUND_RATE:-0.10}
+      OWN_GATEWAY_OVERDUE_DAYS: ${OWN_GATEWAY_OVERDUE_DAYS:-30}
+      TRUSTED_PROXY_COUNT: ${TRUSTED_PROXY_COUNT:-1}
+      SECURE_HSTS_SECONDS: ${SECURE_HSTS_SECONDS:-3600}
+      UNPAID_ORDER_HOLD_HOURS: ${UNPAID_ORDER_HOLD_HOURS:-48}
+      PRODUCT_IMAGE_HOSTS: ${PRODUCT_IMAGE_HOSTS:-}
+      ADMINS: ${ADMINS:-}
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
+    depends_on:
+      db: {condition: service_healthy}
+      redis: {condition: service_started}
+  notifications:
+    build: .
+    command: python manage.py dispatch_notifications --watch
+    environment: *appenv
+    restart: unless-stopped
+    depends_on: [db, redis]
+  worker:
+    build: .
+    command: celery -A config.celery worker --loglevel=info
+    environment: *appenv
+    depends_on: [db, redis]
+volumes:
+  postgres:
