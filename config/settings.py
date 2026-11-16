@@ -3,7 +3,7 @@ import os
 from pathlib import Path
 import dj_database_url
 BASE_DIR=Path(__file__).resolve().parent.parent
-DEBUG=os.getenv('DEBUG','0')=='1'
+DEBUG=True
 SECRET_KEY=os.environ.get('SECRET_KEY','development-only-change-before-production')
 if not DEBUG and SECRET_KEY=='development-only-change-before-production':
     raise RuntimeError('Set SECRET_KEY or use DEBUG=1 for local development')
